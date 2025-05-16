@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct SwiftUIDemoApp: App {
+    
+    @StateObject private var coordinator = AppFlowCoordinator.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            coordinator.buildRootView()
         }
     }
 }
