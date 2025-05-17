@@ -11,34 +11,31 @@ import Foundation
 class NetworkManager: NetworkManagerProtocol {
     
     // MARK: - Request
-    func request<T: Codable>(request: APIRequest, completion: @escaping CompletionHandler<T>) {
-        guard let url = request.url else {return}
+    func request<T: Codable>(request: APIRequest) async throws -> T {
+        guard let url = request.url else {
+            throw BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
+        }
+        
         var urlRequest = URLRequest(url: url)
         setupMethodType(for: &urlRequest, with: request)
         setupHeaders(for: &urlRequest, with: request)
-        setupParameters(for: &urlRequest, with: request, url, completion: completion)
+        try setupParameters(for: &urlRequest, with: request, url)
         
-        URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
-            self?.printForDebug(request, data: data, response: response, error: error)
-            if let error = error as NSError? {
-                self?.handleUrlSessionError(request, response, with: error, completion: completion)
-                return
-            }
-            
-            guard let data = data, !data.isEmpty else {
-                completion(.failure(BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)))
-                return
-            }
-            
-            let decoder = JSONDecoder()
-            do {
-                let decodedData = try decoder.decode(BaseResponse<T>.self, from: data)
-                self?.handleDecodeDataSuccessa(for: decodedData, request: request, response: response, completion: completion)
-            } catch let decodeError {
-                print("Decoding error: \(decodeError)")
-                completion(.failure(BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)))
-            }
-        }.resume()
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        
+        printForDebug(request, data: data, response: response, error: nil)
+        
+        guard !data.isEmpty else {
+            throw BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
+        }
+        
+        do {
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
+        } catch {
+            print("Decoding error: \(error)")
+            throw BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
+        }
     }
     
     // MARK: - Setup
@@ -54,7 +51,7 @@ class NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    private func setupParameters<T: Codable>(for urlRequest: inout URLRequest, with request: APIRequest, _  url: URL, completion: @escaping CompletionHandler<T>)  {
+    private func setupParameters(for urlRequest: inout URLRequest, with request: APIRequest, _  url: URL)  throws  {
         if let parameters = request.parameters {
             switch request.parameterEncoding {
             case .url:
@@ -67,33 +64,21 @@ class NetworkManager: NetworkManagerProtocol {
                     urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
                     urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 } catch {
-                    completion(.failure(BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)))
-                    return
+                    throw BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
                 }
             }
         }
     }
     
     // MARK: - Handle Error
-    private func handleUrlSessionError<T: Codable>(_ request: APIRequest, _ response: URLResponse?, with error: NSError, completion: @escaping CompletionHandler<T>) {
+    private func handleUrlSessionError<T: Codable>(_ request: APIRequest, _ response: URLResponse?, with error: NSError) async throws -> T {
         switch error.code {
         case NSURLErrorTimedOut:
-            completion(.failure(BaseError(errorCode: ErrorCode.TIME_OUT.rawValue)))
+            throw BaseError(errorCode: ErrorCode.TIME_OUT.rawValue)
         case NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost:
-            completion(.failure(BaseError(errorCode: ErrorCode.INTERNET_CONNECTION_ERROR.rawValue)))
+            throw BaseError(errorCode: ErrorCode.INTERNET_CONNECTION_ERROR.rawValue)
         default:
-            completion(.failure(BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)))
-        }
-        return
-    }
-    
-    // MARK: - Decode Data
-    private func handleDecodeDataSuccessa<T: Codable>(for decodedData: BaseResponse<T>, request: APIRequest, response: URLResponse?, completion: @escaping CompletionHandler<T>) {
-        if decodedData.isSuccess {
-            completion(.success(decodedData))
-        }
-        else {
-            completion(.failure(BaseError(errors: decodedData.errors, validation: decodedData.validation)))
+            throw BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
         }
     }
     

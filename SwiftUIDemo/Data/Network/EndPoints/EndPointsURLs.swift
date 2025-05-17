@@ -8,6 +8,6 @@
 import Foundation
 
 struct EndPointsURLs {
-    static let baseUrl = "www.google.com"
-    static let homeReuqest = "www.google.com"
+    static let baseUrl = "https://api.themoviedb.org/3"
+    static let nowPlayingMovies = "/movie/now_playing"
 }

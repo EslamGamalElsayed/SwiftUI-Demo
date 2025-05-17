@@ -23,10 +23,8 @@ class APIRequestBuilder {
     
     private func setDefaultHeaders() {
         self.headers = [:]
-        headers?[RequestHeader.NAME.rawValue] = RequestHeaderValues.NAME
-        headers?[RequestHeader.TYPE.rawValue] = RequestHeaderValues.TYPE
-        headers?[RequestHeader.VERSION.rawValue] = RequestHeaderValues.VERSION
-        //headers?[RequestHeader.AUTHORIZATION.rawValue] = RequestHeader.BEARER.rawValue + token
+        headers?[RequestHeader.ACCEPT.rawValue] = RequestHeaderValues.ACCEPT
+        headers?[RequestHeader.AUTHORIZATION.rawValue] = RequestHeader.BEARER.rawValue + "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMDc0NWI2OTY3OTkxNTVjOWFmOGVmZmY2MmQxNDA1OSIsIm5iZiI6MTc0NzQ5MTM3My4zMjE5OTk4LCJzdWIiOiI2ODI4OWEyZDk4OWNmNjVjN2VkYjIxNDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.UNj0NEUZ3vaJ3hEfUs3Nmz9JE9dpF-XY93EqK8jpJsk"
     }
 
     func setHeaders(_ headers: [String: String]) -> Self {
@@ -59,17 +57,13 @@ class APIRequestBuilder {
 }
 
 enum RequestHeader: String {
-    case NAME    = "X-Client-Name"
-    case VERSION = "X-Client-Version"
-    case TYPE    = "X-Client-Type"
     case AUTHORIZATION  = "Authorization"
     case BEARER = "Bearer "
-    case HARMONIZED_CODE_API = "x-api-key"
+    case ACCEPT = "accept"
 }
 
 
 struct RequestHeaderValues {
-    static let NAME    = "shipper"
-    static let TYPE    = "ios"
+    static let ACCEPT  = "application/json"
     static let VERSION = "v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
 }

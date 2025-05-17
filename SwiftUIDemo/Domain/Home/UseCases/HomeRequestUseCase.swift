@@ -6,7 +6,12 @@
 //
 
 import Foundation
-class HomeRequestUseCase: GeneralUseCase {
+
+protocol HomeUseCasesProtocol {
+    func executeGetNowPlayingMovies<T: Codable>(with data: Any?) async throws -> T
+}
+
+class HomeUseCase: HomeUseCasesProtocol {
     
     private let homeRepository: HomeRepositoryProtocol
     
@@ -14,8 +19,8 @@ class HomeRequestUseCase: GeneralUseCase {
         self.homeRepository = homeRepository
     }
     
-    func execute<T: Codable>(with data: Any?, completionHandler: @escaping CompletionHandler<T>) {
-        homeRepository.homeRequest(with: data, completionHandler: completionHandler)
+    func executeGetNowPlayingMovies<T: Codable>(with data: Any?) async throws -> T {
+        try await homeRepository.getNowPlayingMovies(with: data)
     }
     
 }

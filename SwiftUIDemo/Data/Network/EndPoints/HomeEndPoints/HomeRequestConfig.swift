@@ -1,5 +1,5 @@
 //
-//  HomeRequestConfig.swift
+//  NowPlayingMoviesConfig.swift
 //  SwiftUIDemo
 //
 //  Created by Eslam Gamal on 16/05/2025.
@@ -12,15 +12,10 @@ protocol APIEndpointConfig {
     var request: APIRequest { get }
 }
 
-class HomeRequestConfig: APIEndpointConfig {
-
+class HomeRequestConfig {
+    let nowPlayingMoviesConfig: NowPlayingMoviesConfig
     
-    var request: APIRequest {
-        return APIRequestBuilder(url: URL(string: EndPointsURLs.baseUrl + EndPointsURLs.homeReuqest), method: .POST)
-            .setParameters(["username" :  "",
-                            "password" :  ""],
-                           encoding: .json)
-            .build()
+    init(nowPlayingMoviesConfig: NowPlayingMoviesConfig) {
+        self.nowPlayingMoviesConfig = nowPlayingMoviesConfig
     }
-    
 }

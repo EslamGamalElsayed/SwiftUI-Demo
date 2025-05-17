@@ -8,5 +8,5 @@
 import Foundation
 
 protocol GeneralUseCase {
-    func execute<T: Codable>(with data: Any?,completionHandler: @escaping CompletionHandler<T>)
+    func execute<T: Codable>(with data: Any?) async throws -> T
 }

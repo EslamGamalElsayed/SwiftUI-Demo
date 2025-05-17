@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct SwiftUIDemoApp: App {
     
-    @StateObject private var coordinator = AppFlowCoordinator.shared
+    @StateObject private var coordinator = AppFlowCoordinator()
     
     var body: some Scene {
         WindowGroup {

@@ -7,15 +7,46 @@
 
 import Foundation
 
-final class HomeViewModel: ObservableObject {
-    private let navigate: ((AppRoute) -> Void)?
+// MARK: - typealias
+typealias HomeViewModelProtocol = HomeViewModelInput & HomeViewModelOutput & BaseViewModelProtocol
 
-    init(navigate: ((AppRoute) -> Void)? = nil) {
-        self.navigate = navigate
+class HomeViewModel: HomeViewModelProtocol {
+    
+    // MARK: - Variables
+    private let homeUseCases: HomeUseCasesProtocol
+    private let coordiantor: HomeCoordinator
+    @Published var nowPlayingMovies: [Movie] = []
+    @Published var apiRequestError: BaseError?
+    
+    // MARK: - Initiliazer
+    init(coordiantor: HomeCoordinator, homeUseCases: HomeUseCasesProtocol) {
+        self.coordiantor = coordiantor
+        self.homeUseCases = homeUseCases
     }
+    @MainActor
+    func fetchData() {
+        Task {
+            do {
+                let response: NowPlayingMovies = try await homeUseCases.executeGetNowPlayingMovies(with: nil)
+                self.nowPlayingMovies = response.results
+            } catch let baseError as BaseError {
+                self.apiRequestError = baseError
+            } catch {
+                self.apiRequestError = BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue)
+            }
+        }
+    }
+}
 
-    func goToDetails() {
-        guard let navigate = navigate else { return }
-        navigate(.DETAILS(id: 123))
+extension HomeViewModel {
+    @MainActor func onAppear() {
+        fetchData()
+    }
+    
+    func onDisappear() {
+    }
+    
+    func didTapDetails() {
+        coordiantor.navigateToDetailsScreen()
     }
 }

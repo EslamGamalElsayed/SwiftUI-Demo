@@ -8,15 +8,9 @@
 import Foundation
 import SwiftUI
 
-final class AppFlowCoordinator: ObservableObject {
+ class AppFlowCoordinator: ObservableObject {
     
-    @Published var path = NavigationPath()
-
-    static let shared = AppFlowCoordinator()
-    
-    private init() {
-        
-    }
+     @Published var path = NavigationPath()
     
     private var pathBinding: Binding<NavigationPath> {
           Binding(
@@ -42,8 +36,8 @@ final class AppFlowCoordinator: ObservableObject {
     }
 
     private func homeView() -> some View {
-        let vm = HomeViewModel(navigate: self.navigate)
-        return HomeView(viewModel: vm)
+        let homeViewModel = HomeDIContainer.shared.getHomeViewModel(with: pathBinding)
+        return HomeView(viewModel: homeViewModel)
     }
 
     private func detailsView(id: Int) -> some View {

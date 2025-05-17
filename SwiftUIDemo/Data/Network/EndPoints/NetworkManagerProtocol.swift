@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias CompletionHandler<T: Codable> = (Result<BaseResponse<T>, BaseError>) -> Void
-
 protocol NetworkManagerProtocol {
-    func request<T: Codable>(request: APIRequest, completion: @escaping CompletionHandler<T>)
+    func request<T: Codable>(request: APIRequest) async throws -> T
 }

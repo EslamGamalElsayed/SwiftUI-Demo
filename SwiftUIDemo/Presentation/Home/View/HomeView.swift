@@ -7,17 +7,21 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct HomeView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel: ObservableObject {
+
     @ObservedObject var viewModel: HomeViewModel
     var body: some View {
         Button("Go to Details") {
-                   viewModel.goToDetails()
+            viewModel.didTapDetails()
                }
+        .onAppear {
+            viewModel.onAppear()
+        }
     }
 }
 
-#Preview {
-    HomeView(viewModel: HomeViewModel())
+#Preview("Interactive Canvas Navigation") {
+    CoordinatorPreviewWrapper()
 }
 
 

@@ -9,22 +9,22 @@ import Foundation
 
 // MARK: - HomeRepository Protocol
 protocol HomeRepositoryProtocol {
-    func homeRequest<T: Codable>(with data: Any?, completionHandler: @escaping CompletionHandler<T>)
+    func getNowPlayingMovies<T: Codable>(with data: Any?) async throws -> T
 }
 
 // MARK: - LoginRepository
 class HomeRepository: HomeRepositoryProtocol {
     
     private let networkManager: NetworkManagerProtocol
-    private let homeRequestConfig: APIEndpointConfig
+    private let homeRequestConfig: HomeRequestConfig
     
-    init(networkManager: NetworkManagerProtocol, homeRequestConfig: APIEndpointConfig) {
+    init(networkManager: NetworkManagerProtocol, homeRequestConfig: HomeRequestConfig) {
         self.networkManager = networkManager
         self.homeRequestConfig = homeRequestConfig
     }
     
-    func homeRequest<T: Codable>(with data: Any?, completionHandler: @escaping CompletionHandler<T>) {
-        networkManager.request(request: homeRequestConfig.request, completion: completionHandler)
+    func getNowPlayingMovies<T: Codable>(with data: Any?) async throws -> T {
+        try await networkManager.request(request: homeRequestConfig.nowPlayingMoviesConfig.request)
     }
     
 }
