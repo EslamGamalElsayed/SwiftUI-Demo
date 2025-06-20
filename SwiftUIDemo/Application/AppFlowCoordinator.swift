@@ -18,6 +18,10 @@ import SwiftUI
               set: { self.path = $0 }
           )
       }
+     
+     private lazy var homeViewModel: HomeViewModel = {
+           HomeDIContainer.shared.getHomeViewModel(with: pathBinding)
+       }()
     
     func buildRootView() -> some View {
         NavigationStack(path: pathBinding) {
@@ -36,8 +40,7 @@ import SwiftUI
     }
 
     private func homeView() -> some View {
-        let homeViewModel = HomeDIContainer.shared.getHomeViewModel(with: pathBinding)
-        return HomeView(viewModel: homeViewModel)
+        return HomeView(viewModel: self.homeViewModel)
     }
 
     private func detailsView(id: Int) -> some View {
