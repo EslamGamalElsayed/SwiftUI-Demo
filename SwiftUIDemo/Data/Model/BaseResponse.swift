@@ -14,20 +14,20 @@ struct BaseResponse<T: Codable>: Codable {
         return status == 1
     }
     let errors: [CustomError]?
-    var data: T?
+    var result: T?
     var validation: JSONValue?
 
     private enum CodingKeys: String, CodingKey {
         case status = "status"
         case errors = "errors"
-        case data = "data"
+        case result = "result"
         case validation = "validation"
     }
     
     init(errorCode: ErrorCode, message: String = "", uuid: String = "") {
         self.status = 0
         self.errors = [CustomError(codeStatus: errorCode.rawValue, message: message, uuid: uuid)]
-        self.data = nil
+        self.result = nil
         self.validation = nil
     }
 }

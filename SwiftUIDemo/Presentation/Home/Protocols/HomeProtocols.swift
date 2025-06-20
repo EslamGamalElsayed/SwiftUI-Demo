@@ -14,6 +14,5 @@ protocol HomeViewModelInput {
 
 // MARK: - HomeViewModelOutput
 protocol HomeViewModelOutput {
-    var nowPlayingMovies: [Movie] { get set }
-    var apiRequestError: BaseError? { get set }
+
 }

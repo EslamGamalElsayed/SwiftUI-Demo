@@ -10,12 +10,10 @@ import Foundation
 // MARK: - APIEndpointConfig Protocol
 protocol APIEndpointConfig {
     var request: APIRequest { get }
+    func updateModel(with data: Any)
 }
 
-class HomeRequestConfig {
-    let nowPlayingMoviesConfig: NowPlayingMoviesConfig
-    
-    init(nowPlayingMoviesConfig: NowPlayingMoviesConfig) {
-        self.nowPlayingMoviesConfig = nowPlayingMoviesConfig
-    }
+extension APIEndpointConfig {
+    func updateModel(with data: Any) {}
 }
+

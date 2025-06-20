@@ -9,14 +9,20 @@ import SwiftUI
 
 struct HomeView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel: ObservableObject {
 
-    @ObservedObject var viewModel: HomeViewModel
+    @StateObject var viewModel: HomeViewModel
     var body: some View {
+        
+        ScrollView {
+            VStack {
+                ForEach(0...100, id: \.self) {_ in
+                    Text("TEST")
+                }
+            }
+        }
         Button("Go to Details") {
             viewModel.didTapDetails()
                }
-        .onAppear {
-            viewModel.onAppear()
-        }
+    
     }
 }
 

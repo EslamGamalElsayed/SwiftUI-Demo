@@ -13,18 +13,11 @@ class HomeDIContainer {
     private init() {}
     
     func getHomeViewModel(with pathBinding: Binding<NavigationPath>) -> HomeViewModel {
-        HomeViewModel(coordiantor: getHomeCoordinator(with: pathBinding), homeUseCases: getHomeUseCases())
+        HomeViewModel(coordiantor: getHomeCoordinator(with: pathBinding))
     }
     
     private func getHomeCoordinator(with pathBinding: Binding<NavigationPath>) -> HomeCoordinator {
         HomeCoordinator(pathBinding: pathBinding)
     }
-    
-    private func getHomeUseCases() -> HomeUseCasesProtocol {
-        HomeUseCase(homeRepository: getHomeRepository())
-    }
-    
-    private func getHomeRepository() -> any HomeRepositoryProtocol {
-        HomeRepository(networkManager: NetworkManager(), homeRequestConfig: HomeRequestConfig(nowPlayingMoviesConfig: NowPlayingMoviesConfig()))
-    }
+
 }
