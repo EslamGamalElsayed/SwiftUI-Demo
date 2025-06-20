@@ -22,6 +22,10 @@ import SwiftUI
      private lazy var homeViewModel: HomeViewModel = {
            HomeDIContainer.shared.getHomeViewModel(with: pathBinding)
        }()
+     
+     private lazy var leaguesViewModel: LeaguesViewModel = {
+         LeaguesDIContainer.shared.getLeaguesViewModel(with: pathBinding)
+       }()
     
     func buildRootView() -> some View {
         NavigationStack(path: pathBinding) {
@@ -30,10 +34,8 @@ import SwiftUI
                     switch route {
                     case .HOME:
                         self.homeView()
-                    case .DETAILS(let id):
-                        self.detailsView(id: id)
-                    case .SETTINGS:
-                        self.homeView()
+                    case .LEAGUES(let sportName):
+                        self.leaguesView(sportName: sportName)
                     }
                 }
         }
@@ -42,10 +44,10 @@ import SwiftUI
     private func homeView() -> some View {
         return HomeView(viewModel: self.homeViewModel)
     }
-
-    private func detailsView(id: Int) -> some View {
-        let vm = DetailsViewModel(navigate: self.goBack, id: id)
-        return DetailsView(viewModel: vm)
+     
+     private func leaguesView(sportName: String) -> some View {
+         self.leaguesViewModel.setupSportName(sportName)
+         return LeaguesView(viewModel: self.leaguesViewModel)
     }
 
     func navigate(to route: AppRoute) {

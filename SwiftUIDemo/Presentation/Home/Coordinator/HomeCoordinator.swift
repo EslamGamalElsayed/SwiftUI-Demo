@@ -20,7 +20,7 @@ class HomeCoordinator {
         pathBinding.wrappedValue.append(route)
     }
     
-    func navigateToDetailsScreen() {
-        navigate(to: .DETAILS(id: 500))
+    func navigateToLeaguesScreen(sportName: String) {
+        navigate(to: .LEAGUES(sportName: sportName))
     }
 }

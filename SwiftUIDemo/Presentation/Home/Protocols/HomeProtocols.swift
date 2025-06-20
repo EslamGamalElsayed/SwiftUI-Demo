@@ -9,8 +9,8 @@ import Foundation
 
 // MARK: - HomeViewModelInput
 protocol HomeViewModelInput {
-    func didTapDetails()
     func getAllSports() -> [Sport]
+    func didSelectSport(_ sport: Sport)
 }
 
 // MARK: - HomeViewModelOutput

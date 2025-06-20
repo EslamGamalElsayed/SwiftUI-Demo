@@ -30,6 +30,9 @@ struct SportView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel
         .cornerRadius(15, corners: .allCorners)
         .shadow(color: .black.opacity(0.7) ,radius: 5)
         .containerRelativeFrame(.horizontal, alignment: .center)
+        .onTapGesture {
+            viewModel.didSelectSport(sport)
+        }
     }
 }
 
@@ -41,5 +44,5 @@ struct SportView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel
               set: { path = $0}
           )
       }
-    SportView(sport: Sport(name: "Football", imageName: "Football"), viewModel: HomeDIContainer.shared.getHomeViewModel(with: pathBinding))
+    SportView(sport: Sport(name: "Football", imageName: "Football", endPointKey: "football"), viewModel: HomeDIContainer.shared.getHomeViewModel(with: pathBinding))
 }

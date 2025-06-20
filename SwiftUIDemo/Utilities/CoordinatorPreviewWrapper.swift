@@ -25,14 +25,20 @@ struct CoordinatorPreviewWrapper: View {
                 switch route {
                 case .HOME:
                     HomeView(viewModel: HomeDIContainer.shared.getHomeViewModel(with: pathBinding))
-                case .DETAILS(let id):
-                    DetailsView(viewModel: DetailsViewModel(navigate: { path.removeLast() }, id: id))
-                case .SETTINGS:
-                    Text("Settings View")
+                case .LEAGUES(let sportName):
+                    leaguesView(sportName: sportName)
                 }
             }
         }
     }
+}
+
+extension CoordinatorPreviewWrapper {
+    private func leaguesView(sportName: String) -> some View {
+        let viewModel = LeaguesDIContainer.shared.getLeaguesViewModel(with: pathBinding)
+        viewModel.setupSportName(sportName)
+        return LeaguesView(viewModel: viewModel)
+   }
 }
 
 #Preview("Interactive Canvas Navigation") {

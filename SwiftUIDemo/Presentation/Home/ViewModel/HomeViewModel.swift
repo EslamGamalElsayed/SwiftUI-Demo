@@ -26,17 +26,15 @@ class HomeViewModel: ObservableObject, HomeViewModelProtocol {
 // MARK: - HomeViewModel Input
 extension HomeViewModel {
     func getAllSports() -> [Sport] {
-        [Sport(name: "Football", imageName: "Football"),
-         Sport(name: "Basketball", imageName: "Basketball"),
-         Sport(name: "Baseball", imageName: "Baseball"),
-         Sport(name: "Hockey", imageName: "Hockey")
+        [Sport(name: "Football", imageName: "Football", endPointKey: "football"),
+         Sport(name: "Basketball", imageName: "Basketball", endPointKey: "basketball"),
+         Sport(name: "Baseball", imageName: "Baseball", endPointKey: "Baseball"),
+         Sport(name: "Hockey", imageName: "Hockey", endPointKey: "Hockey")
         ]
     }
-}
-
-extension HomeViewModel {
-
-    func didTapDetails() {
-        coordiantor.navigateToDetailsScreen()
+    
+    func didSelectSport(_ sport: Sport) {
+        coordiantor.navigateToLeaguesScreen(sportName: sport.name)
     }
 }
+

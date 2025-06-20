@@ -9,6 +9,5 @@ import Foundation
 
 enum AppRoute: Hashable {
     case HOME
-    case DETAILS(id: Int)
-    case SETTINGS
+    case LEAGUES(sportName: String)
 }
