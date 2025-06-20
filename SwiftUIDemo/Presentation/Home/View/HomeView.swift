@@ -8,22 +8,29 @@
 import SwiftUI
 
 struct HomeView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel: ObservableObject {
-
+    
     @StateObject var viewModel: HomeViewModel
     var body: some View {
-        
-        ScrollView {
-            VStack {
-                ForEach(0...100, id: \.self) {_ in
-                    Text("TEST")
+        ZStack {
+            
+            Color.headerText
+                .ignoresSafeArea(edges: .all)
+            
+            ScrollView(.horizontal) {
+                
+                HStack (spacing: 0){
+                    
+                    ForEach(viewModel.getAllSports()) { sport in
+                        SportView(sport: sport, viewModel: viewModel)
+                    }
                 }
             }
+            .scrollIndicators(.never, axes: .horizontal)
+            .scrollTargetLayout()
+            .scrollTargetBehavior(.paging)
         }
-        Button("Go to Details") {
-            viewModel.didTapDetails()
-               }
-    
     }
+    
 }
 
 #Preview("Interactive Canvas Navigation") {

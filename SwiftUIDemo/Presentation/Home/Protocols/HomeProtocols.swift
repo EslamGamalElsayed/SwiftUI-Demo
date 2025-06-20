@@ -10,6 +10,7 @@ import Foundation
 // MARK: - HomeViewModelInput
 protocol HomeViewModelInput {
     func didTapDetails()
+    func getAllSports() -> [Sport]
 }
 
 // MARK: - HomeViewModelOutput

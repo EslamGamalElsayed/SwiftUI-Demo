@@ -23,6 +23,17 @@ class HomeViewModel: ObservableObject, HomeViewModelProtocol {
     }
 }
 
+// MARK: - HomeViewModel Input
+extension HomeViewModel {
+    func getAllSports() -> [Sport] {
+        [Sport(name: "Football", imageName: "Football"),
+         Sport(name: "Basketball", imageName: "Basketball"),
+         Sport(name: "Baseball", imageName: "Baseball"),
+         Sport(name: "Hockey", imageName: "Hockey")
+        ]
+    }
+}
+
 extension HomeViewModel {
 
     func didTapDetails() {
