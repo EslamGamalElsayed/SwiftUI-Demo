@@ -21,6 +21,44 @@ extension View {
             .fontWeight(weight)
             .foregroundStyle(color)
     }
+    
+    func setupAsyncImage(
+        urlString: String,
+        width: CGFloat,
+        height: CGFloat,
+        contentMode: ContentMode = .fill
+    ) -> some View {
+        AsyncImage(url: URL(string: urlString)) { phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+                    .frame(width: width, height: height)
+            case .success(let image):
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: contentMode)
+                    .frame(width: width, height: height)
+            case .failure:
+                Image(uiImage: UIImage.exclamationMarkDark)
+                    .resizable()
+                    .foregroundColor(.gray)
+                    .aspectRatio(contentMode: contentMode)
+                    .frame(width: width, height: height)
+            @unknown default:
+                EmptyView()
+            }
+        }
+    }
+    
+    func showErrorAlert(isPresented: Binding<Bool>, errorMessage: String, okAction: (() -> Void)? = nil) -> some View {
+        alert("Error", isPresented: isPresented) {Button("OK", role: .cancel)
+            {
+                okAction?()
+            }
+        } message: {
+            Text(errorMessage)
+        }
+    }
 }
 
 struct RoundedCorner: Shape {

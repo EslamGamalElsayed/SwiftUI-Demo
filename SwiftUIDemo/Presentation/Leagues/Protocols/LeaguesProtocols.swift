@@ -12,6 +12,7 @@ import Foundation
 protocol LeaguesViewModelInput {
     func getSportName() -> String
     func getLeagues() -> [SportLeagues]
+    func isLoading() -> Bool
 }
 
 // MARK: - LeaguesViewModelOutput

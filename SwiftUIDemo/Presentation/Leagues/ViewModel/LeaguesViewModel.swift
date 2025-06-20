@@ -18,8 +18,19 @@ class LeaguesViewModel: ObservableObject, LeaguesViewModelProtocol {
     private let coordiantor: LeaguesCoordinator
     private let leaguesUseCase: SportLeaguesUseCaseProtocol
     private var sportName: String?
-    @Published private var leagues: [SportLeagues] = []
-    @Published private var apiRequestError: String = ""
+    @Published private var leagues: [SportLeagues] = [] {
+        didSet {
+            loadingStatus = .STOP
+        }
+    }
+    var apiRequestError: String = "" {
+        didSet {
+            loadingStatus = .STOP
+            showErrorAlert = !apiRequestError.isEmpty
+        }
+    }
+    @Published var loadingStatus: LoadingStatus = .START
+    @Published var showErrorAlert: Bool = false
     
     // MARK: - Initiliazer
     init(coordiantor: LeaguesCoordinator, leaguesUseCase: SportLeaguesUseCaseProtocol) {
@@ -61,6 +72,7 @@ extension LeaguesViewModel {
     }
     
     @MainActor func onAppear() {
+        loadingStatus = .START
         getSportLeagues()
     }
     
@@ -68,5 +80,9 @@ extension LeaguesViewModel {
     
     func getLeagues() -> [SportLeagues] {
         leagues
+    }
+    
+    func isLoading() -> Bool {
+        loadingStatus == .START
     }
 }
