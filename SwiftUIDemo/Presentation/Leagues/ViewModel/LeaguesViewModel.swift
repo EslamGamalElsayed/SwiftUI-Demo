@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - typealias
-typealias LeaguesViewModelProtocol = LeaguesViewModelInput & LeaguesViewModelOutput
+typealias LeaguesViewModelProtocol = LeaguesViewModelInput & LeaguesViewModelOutput & BaseViewModelProtocol
 
 // MARK: - LeaguesViewModel
 
@@ -18,6 +18,8 @@ class LeaguesViewModel: ObservableObject, LeaguesViewModelProtocol {
     private let coordiantor: LeaguesCoordinator
     private let leaguesUseCase: SportLeaguesUseCaseProtocol
     private var sportName: String?
+    @Published private var leagues: [SportLeagues] = []
+    @Published private var apiRequestError: String = ""
     
     // MARK: - Initiliazer
     init(coordiantor: LeaguesCoordinator, leaguesUseCase: SportLeaguesUseCaseProtocol) {
@@ -30,13 +32,41 @@ class LeaguesViewModel: ObservableObject, LeaguesViewModelProtocol {
         self.sportName = sportName
     }
     
-    
 }
 
-// MARK: - LeaguesViewModel Input
+// MARK: - Private Mthods
+extension LeaguesViewModel {
+    @MainActor
+    private func getSportLeagues() {
+        guard let sportName = sportName else { return }
+        Task {
+            do {
+                let response: BaseResponse<[SportLeagues]> = try await leaguesUseCase.executeGetSportLeagues(with: sportName)
+                leagues = response.result ?? []
+            }
+            catch let baseError as BaseError {
+                self.apiRequestError = baseError.getErrorMessage()
+           } catch {
+               self.apiRequestError = BaseError(errorCode: ErrorCode.UNKNOWN_ERROR.rawValue).getErrorMessage()
+           }
+        }
+    }
+}
+ 
 
+// MARK: - LeaguesViewModel Input
 extension LeaguesViewModel {
     func getSportName() -> String {
         sportName ?? "DEFAULT VALUE"
+    }
+    
+    @MainActor func onAppear() {
+        getSportLeagues()
+    }
+    
+    func onDisappear() {}
+    
+    func getLeagues() -> [SportLeagues] {
+        leagues
     }
 }

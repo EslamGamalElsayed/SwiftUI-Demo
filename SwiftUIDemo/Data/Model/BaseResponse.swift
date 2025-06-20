@@ -9,27 +9,8 @@ import Foundation
 
 // MARK: - BaseResponse
 struct BaseResponse<T: Codable>: Codable {
-    var status: Int
-    var isSuccess: Bool {
-        return status == 1
-    }
-    let errors: [CustomError]?
+    var success: Int?
     var result: T?
-    var validation: JSONValue?
-
-    private enum CodingKeys: String, CodingKey {
-        case status = "status"
-        case errors = "errors"
-        case result = "result"
-        case validation = "validation"
-    }
-    
-    init(errorCode: ErrorCode, message: String = "", uuid: String = "") {
-        self.status = 0
-        self.errors = [CustomError(codeStatus: errorCode.rawValue, message: message, uuid: uuid)]
-        self.result = nil
-        self.validation = nil
-    }
 }
 
 

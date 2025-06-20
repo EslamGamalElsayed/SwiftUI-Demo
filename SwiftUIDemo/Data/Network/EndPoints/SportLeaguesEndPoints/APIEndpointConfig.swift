@@ -10,10 +10,10 @@ import Foundation
 // MARK: - APIEndpointConfig Protocol
 protocol APIEndpointConfig {
     var request: APIRequest { get }
-    func updateModel(with data: Any)
+    func updateModel(with data: Any?)
 }
 
 extension APIEndpointConfig {
-    func updateModel(with data: Any) {}
+    func updateModel(with data: Any?) {}
 }
 

@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct SportLeagues: Codable {
-    
-    let leagueId:  String?
-    let leagueName:  String?
-    let countryId: String?
+struct SportLeagues: Codable, Identifiable {
+    let id = UUID()
+    let leagueId: Int?
+    let leagueName: String?
+    let countryId: Int?
     let countryName: String?
     let leagueImageUrl: String?
     let countryImageUrl: String?

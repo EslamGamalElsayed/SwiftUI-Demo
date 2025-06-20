@@ -20,10 +20,7 @@ struct SportView<HomeViewModel: HomeViewModelProtocol>: View where HomeViewModel
                 setupImage(imageName: sport.imageName, width: 300, height: 300)
                     .cornerRadius(15, corners: .allCorners)
                     .padding()
-                Text("\(sport.name)")
-                    .font(.system(size: 30))
-                    .fontWeight(.heavy)
-                    .foregroundStyle(.headerText)
+                setupText(text: "\(sport.name)", font: .system(size: 30), color: .headerText, weight: .heavy)
             }
         }
         .backgroundStyle(.highlightedCustomerCellBorder)

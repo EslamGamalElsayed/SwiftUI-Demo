@@ -34,7 +34,7 @@ extension HomeViewModel {
     }
     
     func didSelectSport(_ sport: Sport) {
-        coordiantor.navigateToLeaguesScreen(sportName: sport.name)
+        coordiantor.navigateToLeaguesScreen(sportName: sport.endPointKey)
     }
 }
 

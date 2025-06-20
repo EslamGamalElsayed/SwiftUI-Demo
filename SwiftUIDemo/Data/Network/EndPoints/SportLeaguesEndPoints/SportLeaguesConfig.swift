@@ -12,11 +12,11 @@ class SportLeaguesConfig: APIEndpointConfig {
     var sportType: String?
     
     var request: APIRequest {
-        return APIRequestBuilder(url: URL(string: EndPointsURLs.baseUrl + EndPointsURLs.getSportLeaguesEndPoint(for: sportType ?? "")), method: .GET)
+        return APIRequestBuilder(url: URL(string: EndPointsURLs.getSportLeaguesEndPoint(for: sportType ?? "")), method: .GET)
             .build()
     }
     
-    func updateModel(with data: Any) {
+    func updateModel(with data: Any?) {
         guard let data = data as? String else { return }
         sportType = data
     }

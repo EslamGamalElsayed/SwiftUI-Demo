@@ -24,7 +24,8 @@ class SportLeaguesRepository: SportLeaguesRepositoryProtocol {
     }
     
     func getSportLeagues<T: Codable>(with data: Any?) async throws -> T {
-        try await networkManager.request(request: sportLeaguesConfig.request)
+        sportLeaguesConfig.updateModel(with: data)
+        return try await networkManager.request(request: sportLeaguesConfig.request)
     }
     
 }

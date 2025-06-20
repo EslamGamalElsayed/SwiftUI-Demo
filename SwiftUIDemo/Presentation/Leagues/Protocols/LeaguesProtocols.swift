@@ -11,9 +11,10 @@ import Foundation
 // MARK: - LeaguesViewModelInput
 protocol LeaguesViewModelInput {
     func getSportName() -> String
+    func getLeagues() -> [SportLeagues]
 }
 
 // MARK: - LeaguesViewModelOutput
 protocol LeaguesViewModelOutput {
-
+   
 }

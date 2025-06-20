@@ -46,8 +46,9 @@ import SwiftUI
     }
      
      private func leaguesView(sportName: String) -> some View {
-         self.leaguesViewModel.setupSportName(sportName)
-         return LeaguesView(viewModel: self.leaguesViewModel)
+         let viewModel = self.leaguesViewModel
+         viewModel.setupSportName(sportName)
+         return LeaguesView(viewModel: viewModel)
     }
 
     func navigate(to route: AppRoute) {

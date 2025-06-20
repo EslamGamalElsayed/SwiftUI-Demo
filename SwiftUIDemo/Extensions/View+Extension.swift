@@ -11,13 +11,15 @@ extension View {
     func setupImage(imageName: String, width: CGFloat, height: CGFloat) -> some View {
         Image(imageName)
             .resizable()
+            .scaledToFill()
             .frame(width: width, height: height)
     }
-    
-    func setupText(text: String, font: Font, color: Color = .black) -> some View {
+  
+    func setupText(text: String, font: Font, color: Color = .black, weight: Font.Weight) -> some View {
         Text(text)
             .font(font)
-            .foregroundColor(color)
+            .fontWeight(weight)
+            .foregroundStyle(color)
     }
 }
 
