@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-struct LeagueDetailsView: View {
+struct LeagueDetailsView<LeaguesViewModel: LeaguesViewModelProtocol>: View where LeaguesViewModel: ObservableObject {
     var league: SportLeagues
+    @ObservedObject var viewModel: LeaguesViewModel
+    
     var body: some View {
         GroupBox {
             VStack(alignment: .center, spacing: 0) {
@@ -28,10 +30,20 @@ struct LeagueDetailsView: View {
         }
         .backgroundStyle(.highlightedCustomerCellBorder)
         .cornerRadius(15, corners: .allCorners)
+        .onTapGesture {
+            viewModel.didTapLeague(league: league)
+        }
     }
     
 }
 
 #Preview {
-    LeagueDetailsView(league: SportLeagues(leagueId: 0, leagueName: "Primer League", countryId: 0, countryName: "Engeland", leagueImageUrl: "https://apiv2.allsportsapi.com/logo/logo_leagues/3_uefa_champions_league.png", countryImageUrl: "https://apiv2.allsportsapi.com/logo/logo_country/5_italy.png"))
+    var path = NavigationPath()
+     var pathBinding: Binding<NavigationPath> {
+          Binding(
+              get: { path },
+              set: { path = $0}
+          )
+      }
+    LeagueDetailsView(league: SportLeagues(leagueId: 0, leagueName: "Primer League", countryId: 0, countryName: "Engeland", leagueImageUrl: "https://apiv2.allsportsapi.com/logo/logo_leagues/3_uefa_champions_league.png", countryImageUrl: "https://apiv2.allsportsapi.com/logo/logo_country/5_italy.png"), viewModel: LeaguesDIContainer.shared.getLeaguesViewModel(with: pathBinding))
 }

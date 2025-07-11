@@ -31,7 +31,7 @@ struct LeaguesView<LeaguesViewModel: LeaguesViewModelProtocol>: View where Leagu
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(viewModel.getLeagues()) { league in
-                        LeagueDetailsView(league: league)
+                        LeagueDetailsView(league: league, viewModel: viewModel)
                     }
                 }
                 .padding()

@@ -9,5 +9,7 @@ import Foundation
 import SwiftUI
 
 class LeaguesCoordinator: Coordinator {
-    
+    func navigateToLeagueDetailsScreen(league: League) {
+        navigate(to: .LEAGUE_DETAILS(league: league))
+    }
 }

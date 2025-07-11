@@ -13,6 +13,7 @@ protocol LeaguesViewModelInput {
     func getSportName() -> String
     func getLeagues() -> [SportLeagues]
     func isLoading() -> Bool
+    func didTapLeague(league: SportLeagues)
 }
 
 // MARK: - LeaguesViewModelOutput

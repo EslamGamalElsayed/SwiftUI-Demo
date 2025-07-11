@@ -85,4 +85,10 @@ extension LeaguesViewModel {
     func isLoading() -> Bool {
         loadingStatus == .START
     }
+    
+    func didTapLeague(league: SportLeagues) {
+        guard let sportName = sportName else { return }
+        let league = League(sportName: sportName, leageID: league.leagueId ?? 0)
+        coordiantor.navigateToLeagueDetailsScreen(league: league)
+    }
 }
