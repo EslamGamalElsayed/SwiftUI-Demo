@@ -27,6 +27,8 @@ struct CoordinatorPreviewWrapper: View {
                     HomeView(viewModel: HomeDIContainer.shared.getHomeViewModel(with: pathBinding))
                 case .LEAGUES(let sportName):
                     leaguesView(sportName: sportName)
+                case .LEAGUE_DETAILS(league: let league):
+                    leagueDetailsView(league: league)
                 }
             }
         }
@@ -38,6 +40,12 @@ extension CoordinatorPreviewWrapper {
         let viewModel = LeaguesDIContainer.shared.getLeaguesViewModel(with: pathBinding)
         viewModel.setupSportName(sportName)
         return LeaguesView(viewModel: viewModel)
+   }
+    
+    private func leagueDetailsView(league: League) -> some View {
+        let viewModel = LeagueDetailsDIContainer.shared.getLeagueDetailsViewModel(with: pathBinding)
+        viewModel.setupLeague(league)
+        return LeagueDetails(viewModel: viewModel)
    }
 }
 

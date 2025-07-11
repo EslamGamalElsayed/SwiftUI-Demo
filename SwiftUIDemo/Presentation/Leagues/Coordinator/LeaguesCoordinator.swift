@@ -8,13 +8,6 @@
 import Foundation
 import SwiftUI
 
-class LeaguesCoordinator {
+class LeaguesCoordinator: Coordinator {
     
-    private var pathBinding: Binding<NavigationPath>
-    
-    init(pathBinding: Binding<NavigationPath>) {
-        self.pathBinding = pathBinding
-    }
-    
- 
 }

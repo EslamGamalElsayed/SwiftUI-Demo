@@ -8,18 +8,7 @@
 import Foundation
 import SwiftUI
 
-class HomeCoordinator {
-    
-    private var pathBinding: Binding<NavigationPath>
-    
-    init(pathBinding: Binding<NavigationPath>) {
-        self.pathBinding = pathBinding
-    }
-    
-    func navigate(to route: AppRoute) {
-        pathBinding.wrappedValue.append(route)
-    }
-    
+class HomeCoordinator: Coordinator {
     func navigateToLeaguesScreen(sportName: String) {
         navigate(to: .LEAGUES(sportName: sportName))
     }

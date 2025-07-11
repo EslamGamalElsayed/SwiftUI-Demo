@@ -10,4 +10,5 @@ import Foundation
 enum AppRoute: Hashable {
     case HOME
     case LEAGUES(sportName: String)
+    case LEAGUE_DETAILS(league: League)
 }
