@@ -9,7 +9,8 @@ import Foundation
 
 // MARK: - LeagueDetailsViewModelInput
 protocol LeagueDetailsViewModelInput {
-   
+    func getFixtures() -> [Fixtures]
+    func isLoading() -> Bool
 }
 
 // MARK: - LeagueDetailsViewModelOutput

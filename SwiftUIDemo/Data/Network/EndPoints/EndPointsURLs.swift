@@ -13,4 +13,7 @@ struct EndPointsURLs {
     static func getSportLeaguesEndPoint(for sportType: String) -> String {
         EndPointsURLs.baseUrl + "/\(sportType)/?met=Leagues&APIkey=\(EndPointsURLs.APIKey)"
     }
+    static func getLeagueFixturesEndPoint(for league: League) -> String {
+        EndPointsURLs.baseUrl + "/\(league.sportName)/?met=Fixtures&APIkey=\(EndPointsURLs.APIKey)&from=2025-01-01&to=2026-01-01&leagueId=\(league.leagueID)"
+    }
 }

@@ -21,7 +21,11 @@ class LeagueDetailsDIContainer {
     }
     
     private func getLeagueFixturesUseCase() -> LeagueFixturesUseCaseProtocol {
-        LeagueFixturesUseCase()
+        LeagueFixturesUseCase(leagueFixturesRepository: getLeagueFixturesRepository())
+    }
+    
+    private func getLeagueFixturesRepository() -> LeagueFixturesRepositoryProtocol {
+        LeagueFixturesRepository(networkManager: NetworkManager(), leagueFixturesConfig: FixturesConfig())
     }
 
 }

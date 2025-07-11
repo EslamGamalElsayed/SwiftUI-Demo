@@ -9,5 +9,5 @@ import Foundation
 
 struct League: Hashable {
     var sportName: String
-    var leageID: Int
+    var leagueID: Int
 }
